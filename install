@@ -18,7 +18,19 @@ end script
 respawn
 EOF
 
-echo "include /home/git/*/nginx.conf;" > /etc/nginx/conf.d/dokku.conf
+echo<<EOF > /etc/nginx/conf.d/dokku.conf
+server {
+  listen      80;
+  server_name $hostname;
+  location    / {
+    # some stuff here
+    # could construct a page that hoons through /home/git/*/VHOST
+    # and builds an index?
+  }
+
+  include /home/git/*/nginx.conf;
+}
+EOF
 
 sed -i 's/# server_names_hash_bucket_size/server_names_hash_bucket_size/' /etc/nginx/nginx.conf
 
